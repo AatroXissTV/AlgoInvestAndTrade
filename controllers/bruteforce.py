@@ -52,15 +52,18 @@ class BruteForce:
             wallet_str = wallet.serialize_wallet()
             wallets_list.append(wallet_str)
 
-        best_wallets = BruteForce.determine_best_profit(wallets_list)
-        print(best_wallets)
+        best_wallet = BruteForce.determine_best_profit(wallets_list)
+        wallet = Wallet.deserialize_wallet(None, best_wallet[0])
+        print(wallet)
+        wallet = best_wallet[0]
+        get_shares = wallet['shares']
+        Shares.getShares(get_shares)
 
     def determine_best_profit(w_list):
-        best_wallets = []
+        best_wallet = []
         sorted_w = sorted(w_list, key=lambda w: w['profit'], reverse=True)
-        best_wallets.append(sorted_w[0])
-        best_wallets.append(sorted_w[1])
-        return best_wallets
+        best_wallet.append(sorted_w[0])
+        return best_wallet
 
     def determine_all_combinations(shares_list):
         all_combinations = []

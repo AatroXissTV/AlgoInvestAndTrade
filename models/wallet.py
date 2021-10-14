@@ -30,12 +30,13 @@ class Wallet:
     """This class represent a wallet
     """
 
-    def __init__(self, name, max_budget=MAX_BUDGET):
+    def __init__(self, name, max_budget=MAX_BUDGET,
+                 amount_spend=0, profit=0):
         self.name = name
         self.max_budget = max_budget
         self.shares = []
-        self.amount_spend = 0
-        self.profit = 0
+        self.amount_spend = amount_spend
+        self.profit = profit
 
     def serialize_wallet(self):
         return {
@@ -62,8 +63,15 @@ class Wallet:
             self.profit = total_profit
         return self.profit
 
+    def deserialize_wallet(self, data):
+        name = data['name']
+        max_budget = data['max_budget']
+        amount_spend = data['amount_spend']
+        profit = data['profit']
+        return Wallet(name, max_budget, amount_spend, profit)
+
     def __str__(self):
-        return ('\n{} - Budget: {}\nShares: {}\nSpent: {} - Profit {}').format(
-            self.name, self.max_budget, self.shares,
+        return ('\n{} - Budget: {}\nSpent: {} - Profit {}').format(
+            self.name, self.max_budget,
             self.amount_spend, self.profit
         )

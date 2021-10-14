@@ -43,6 +43,12 @@ class Shares:
 
         return shares_list
 
+    def getShares(shares_list):
+        for share in shares_list:
+            share_obj = Share(share['name'], share['price'],
+                              share['profit_percentage'])
+            print(share_obj)
+
 
 class Share:
     """This class represent a share
