@@ -1,0 +1,7 @@
+### vscode ###
+/.vscode
+
+### Pycache ###
+/controllers/__pycache__
+/__pycache__/
+*.pyc
