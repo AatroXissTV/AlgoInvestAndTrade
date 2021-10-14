@@ -19,6 +19,8 @@ __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
 
 # standard imports
+import itertools
+from builtins import list
 
 # third-party imports
 
@@ -36,7 +38,40 @@ class BruteForce:
 
     def start_bruteforce(self):
         shares_list = Shares.readable_data()
-        wallet = Wallet("my_wallet")
+        all_combinations = BruteForce.determine_all_combinations(shares_list)
+
+        # DEL first combination
+        del all_combinations[0]
+
+        # Initialize list of wallets
+        wallets_list = []
+
+        for i in range(len(all_combinations)):
+            current_combination = all_combinations[i]
+            wallet = BruteForce.create_wallet(None, current_combination, i)
+            wallet_str = wallet.serialize_wallet()
+            wallets_list.append(wallet_str)
+
+        best_wallets = BruteForce.determine_best_profit(wallets_list)
+        print(best_wallets)
+
+    def determine_best_profit(w_list):
+        best_wallets = []
+        sorted_w = sorted(w_list, key=lambda w: w['profit'], reverse=True)
+        best_wallets.append(sorted_w[0])
+        best_wallets.append(sorted_w[1])
+        return best_wallets
+
+    def determine_all_combinations(shares_list):
+        all_combinations = []
+        for i in range(len(shares_list) + 1):
+            combinations_obj = itertools.combinations(shares_list, i)
+            combinations_list = list(combinations_obj)
+            all_combinations += combinations_list
+        return all_combinations
+
+    def create_wallet(self, shares_list, i):
+        wallet = Wallet(f"my_wallet_{i}")
         wallet_shares_list = wallet.buy_shares(shares_list)
         wallet.check_profit(wallet_shares_list)
-        print(wallet)
+        return wallet

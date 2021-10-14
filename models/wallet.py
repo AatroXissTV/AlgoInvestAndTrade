@@ -37,6 +37,15 @@ class Wallet:
         self.amount_spend = 0
         self.profit = 0
 
+    def serialize_wallet(self):
+        return {
+            'name': self.name,
+            'max_budget': self.max_budget,
+            'shares': self.shares,
+            'amount_spend': self.amount_spend,
+            'profit': self.profit
+        }
+
     def buy_shares(self, shares):
         for share in shares:
             if (self.amount_spend + share['price']) <= self.max_budget:
@@ -44,7 +53,7 @@ class Wallet:
                 self.shares.append(share)
             else:
                 print('You have exceeded the maximum budget for your wallet\n')
-                return self.shares
+        return self.shares
 
     def check_profit(self, shares):
         total_profit = 0
