@@ -54,7 +54,17 @@ class Wallet:
                 self.shares.append(share)
             else:
                 pass
-        print('You have exceeded the maximum budget for your wallet')
+        return self.shares
+
+    def greedy_algo(self, sorted_s_list):
+        i = 0
+        while i < len(sorted_s_list) and self.amount_spend <= self.max_budget:
+            share = sorted_s_list[i]
+            price_share = share['price']
+            if self.amount_spend + price_share < self.max_budget:
+                self.shares.append(share)
+                self.amount_spend = self.amount_spend + share['price']
+            i = i+1
         return self.shares
 
     def check_profit(self, shares):

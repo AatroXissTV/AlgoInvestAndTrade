@@ -13,7 +13,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -36,19 +36,9 @@ class Optimized:
 
     def start_optimized(self):
         shares_list = Shares.readable_data()
-        print(shares_list)
-        sorted_s = Optimized.order_profit_percentage(shares_list)
-        best_profit = Optimized.determine_best_profit(sorted_s, 1)
-        print(best_profit)
-
-    def order_profit_percentage(s_list):
-        sorted_s = sorted(s_list, key=lambda s: s['profit_percentage'],
-                          reverse=True)
-        return sorted_s
-
-    def determine_best_profit(sorted_shares, i):
-        wallet = Wallet(f"my_wallet_{i}")
-        wallet_shares_list = wallet.buy_shares(sorted_shares)
-        Shares.getShares(wallet_shares_list)
-        wallet.check_profit(wallet_shares_list)
-        return wallet
+        wallet = Wallet("best_wallet")
+        sorted_shares = Shares.sorted_shares_list(None, shares_list)
+        best_wallet = wallet.greedy_algo(sorted_shares)
+        wallet.check_profit(best_wallet)
+        print(wallet)
+        Shares.getShares(best_wallet)

@@ -49,6 +49,23 @@ class Shares:
                               share['profit_percentage'])
             print(share_obj)
 
+    def total_price_pool(self, shares_list):
+        total_price = 0
+        for share in shares_list:
+            total_price = total_price + share['price']
+        return total_price
+
+    def total_profit(self, shares_list):
+        total_profit = 0
+        for share in shares_list:
+            total_profit = total_profit + share['profit']
+        return total_profit
+
+    def sorted_shares_list(self, s_list):
+        sorted_s = sorted(s_list, key=lambda s: s['profit_percentage'],
+                          reverse=True)
+        return sorted_s
+
 
 class Share:
     """This class represent a share
@@ -76,6 +93,6 @@ class Share:
         return Share(name, price, profit_percentage, profit)
 
     def __str__(self):
-        return ('\nName: {}\nPrice: {} Profit: {}%\nreal profit: {}').format(
+        return ('{}: {}€ / {}% => {}€').format(
             self.name, self.price, self.profit_percentage, self.profit
         )
