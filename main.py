@@ -22,7 +22,8 @@ __status__ = "Student in Python"
 # third-party imports
 
 # local imports
-from controllers.bruteforce import BruteForce
+# from controllers.bruteforce import BruteForce
+from controllers.optimized import Optimized
 
 
 # other
@@ -31,8 +32,8 @@ def main():
     """Is the entry point for the app
     """
 
-    launch_app = BruteForce("bruteforce")
-    launch_app.start_bruteforce()
+    launch_app = Optimized("bruteforce")
+    launch_app.start_optimized()
 
 
 main()

@@ -53,7 +53,8 @@ class Wallet:
                 self.amount_spend += share['price']
                 self.shares.append(share)
             else:
-                print('You have exceeded the maximum budget for your wallet\n')
+                pass
+        print('You have exceeded the maximum budget for your wallet')
         return self.shares
 
     def check_profit(self, shares):
