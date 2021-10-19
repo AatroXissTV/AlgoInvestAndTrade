@@ -1,17 +1,19 @@
-# main.py
-# created 14/10/2021 @12:42 CEST
-# last updated 15/10/2021 @15:48 CEST
+# utils/profit.py
+# created 19/10/2021 @18:13
+# last updated 19/10/2O21 @18:13
 
-"""shares.py
+"""scripts.py
 
+To do:
     * Add tasks
+    *
 """
 
 __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "0.2.0"
+__version__ = "1.0.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -22,17 +24,13 @@ __status__ = "Student in Python"
 # third-party imports
 
 # local imports
-from controllers.algo_controller import AlgoController
+
+# others
 
 
-# other
-
-def main():
-    """Is the entry point for the app
-    """
-
-    launch_app = AlgoController("AlgoInvest")
-    launch_app.start_app()
-
-
-main()
+# check profit of a wallet
+def check_profit(wallet_shares_list):
+    total_profit = 0
+    for share in wallet_shares_list:
+        total_profit = total_profit + share[2]
+    return total_profit
