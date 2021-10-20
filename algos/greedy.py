@@ -54,7 +54,7 @@ def greedy_algo(sorted_shares, k):
     return shares_list, amount_spend
 
 
-def greedy(k):
+def greedy(k, items, name, price, profit_percentage):
     # Store begin time for algo
     begin_time = datetime.datetime.now()
 
@@ -62,7 +62,8 @@ def greedy(k):
     w_name = "best_wallet_greedy"
 
     # Shares list & sorted shares
-    shares_list = utils.dataset.readable_data()
+    shares_list = utils.dataset.readable_data(name, price,
+                                              profit_percentage, items)
     sorted_shares = sort_shares_list(shares_list)
 
     # Greedy algo

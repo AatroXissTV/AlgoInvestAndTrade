@@ -24,9 +24,9 @@ import datetime
 
 # third-party imports
 import numpy as np
-import pandas as pd
 
 # local imports
+from utils.dataset import readable_data
 
 # others
 
@@ -67,18 +67,6 @@ def dynamic_programming_algo(budget, items, price, values):
     return solution_price, taken
 
 
-# return python lists
-def return_csv_to_list():
-    column_names = ["name", "price", "profit"]
-    df = pd.read_csv("databases/dataset.csv", names=column_names)
-    name = df.name.to_list()
-    price = df.price.to_list()
-    profit = df.profit.to_list()
-    len_items = len(price)
-
-    return len_items, price, profit, name
-
-
 # float to int
 def convert_float_to_int(list):
     new_list = []
@@ -98,27 +86,33 @@ def get_profit_value(price, profit):
     return profit_values
 
 
-def dynamic_programming(k):
+def dynamic_programming(k, items, name, price, profit_percentage):
     begin_time = datetime.datetime.now()
     w_name = "best_wallet_dynamic"
-    items, price, profit, name_share = return_csv_to_list()
-    profit_values = get_profit_value(price, profit)
-    price_list = convert_float_to_int(price)
-    profit_list = convert_float_to_int(profit_values)
+    shares_list = readable_data(name, price, profit_percentage, items)
+
+    # Convert Float to int
+    profit_floats = []
+    for share in shares_list:
+        profit_float = share[2]
+        profit_floats.append(profit_float)
+    profit_int = convert_float_to_int(profit_floats)
+
+    # Dyna Algo
     amount_spend, taken = dynamic_programming_algo(k, items,
-                                                   price_list, profit_list)
+                                                   price, profit_int)
 
     # get shares
     print('you should buy :')
-    profit_values = []
+    profit_v = []
     for i in taken:
-        name = name_share[i]
-        profit_value = price[i] * (profit[i] / 100)
+        name_s = name[i]
+        profit_s = price[i] * (profit_percentage[i] / 100)
         share_price = price[i]
-        profit_values.append(profit_value)
-        print(f"{name} for {share_price} that will give you {profit_value}$ ")
+        profit_v.append(profit_s)
+        print(f"{name_s} for {share_price} that will give you {profit_s}$ ")
 
-    profit_sum = sum(profit_values)
+    profit_sum = sum(profit_v)
 
     # end time
     end_time = datetime.datetime.now()

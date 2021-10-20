@@ -92,12 +92,13 @@ def best_wallet(wallet_lists):
 
 
 # Bruteforce algorithm
-def bruteforce(k):
+def bruteforce(k, items, name, price, profit_percentage):
     # Store begin time for bruteforce algo
     begin_time = datetime.datetime.now()
 
     # Share list & all combinations
-    shares_list = utils.dataset.readable_data()
+    shares_list = utils.dataset.readable_data(name, price,
+                                              profit_percentage, items)
 
     all_combinations = determine_all_combinations(shares_list)
 
@@ -112,6 +113,7 @@ def bruteforce(k):
     wallet_number = res[0]
     best_wallet_res = all_combinations[wallet_number]
 
+    print("You should buy")
     for item in range(len(best_wallet_res)):
         share = best_wallet_res[item]
         print(f"{share[0]} for {share[1]} that will give you {share[2]}$ ")

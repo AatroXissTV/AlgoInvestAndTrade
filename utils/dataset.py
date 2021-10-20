@@ -21,7 +21,6 @@ __status__ = "Student in Python"
 # standard imports
 
 # third-party imports
-import pandas as pd
 
 # local imports
 
@@ -30,17 +29,14 @@ import pandas as pd
 # This file manages all operations on databases
 
 
-# readable datasets
-def readable_data():
-    df = pd.read_csv(r'databases/dataset.csv')
-    shares_temp = df.values.tolist()
+# readable dataset
+def readable_data(name, price, profit_percentage, items):
 
     shares_list = []
-    for share in shares_temp:
-        name = share[0]
-        price = share[1]
-        profit_percentage = share[2]
-        profit_value = price * (profit_percentage / 100)
-        share_correct = [name, price, profit_value]
-        shares_list.append(share_correct)
+
+    for i in range(items):
+        profit_value = price[i] * (profit_percentage[i] / 100)
+        share = [name[i], price[i], profit_value]
+        shares_list.append(share)
+
     return shares_list
