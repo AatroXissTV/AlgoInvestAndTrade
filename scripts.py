@@ -1,6 +1,6 @@
 # scripts.py
 # created 19/10/2021 @16:01
-# last updated 21/10/2O21 @11:43
+# last updated 21/10/2O21 @11:48
 
 """scripts.py
 
@@ -13,7 +13,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     )
     parser.add_argument('-v', action='store_true', default=False,
                         help='Verbose Output.')
-    parser.add_argument('-f', default='dataset.csv',
+    parser.add_argument('-f', default='databases/dataset.csv',
                         metavar="filename",
                         help='Name of CSV data file (default: %(default)s'
                         'Data format: name, price, value. No header line.')
@@ -64,12 +64,14 @@ if __name__ == '__main__':
     profit = []
     items = 0
 
-    with open(f"databases/{datafilename}", 'r') as file:
+    with open(datafilename, 'r') as file:
         data = file.read()
     for line in data.split('\n'):
         name_d, price_d, profit_d = line.split(',')
+
+        # Check if price is <= 0 or > budget
         price_int = int(float(price_d))
-        if (price_int >= budget) or (price_int <= 0):
+        if (price_int > budget) or (price_int <= 0):
             pass
         else:
             name.append(name_d)
