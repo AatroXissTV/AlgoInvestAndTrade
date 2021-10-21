@@ -1,6 +1,6 @@
 # bruteforce.py
 # created 19/10/2021 @16:01
-# last updated 19/10/2O21 @16:01
+# last updated 21/10/2O21 @11:43
 
 """bruteforce.py
 
@@ -13,7 +13,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -120,3 +120,5 @@ def bruteforce(k, items, name, price, profit_percentage):
 
     print(f"Best wallet: {res[0]} cost {res[1]}€ gives you {res[2]}€")
     print(f"Took: {execution_time}")
+
+    # Method time.

@@ -1,6 +1,6 @@
 # algos/dynamic_programming.py
 # created 19/10/2021 @18:16
-# last updated 19/10/2O21 @18:16
+# last updated 21/10/2O21 @11:43
 
 """dynamic_programming.py
 
@@ -13,7 +13,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -57,7 +57,7 @@ def dynamic_programming_algo(budget, items, price, values):
     taken = []
     k = budget
 
-    # Backtracking for results
+    # Backtracking for taken list
     for item in range(items, 0, -1):
         if matrice[item][k] != matrice[item - 1][k]:
             taken.append(item - 1)
@@ -71,7 +71,7 @@ def dynamic_programming_algo(budget, items, price, values):
 def convert_float_to_int(list):
     new_list = []
     for item in list:
-        new_value = int(item)
+        new_value = int(item * 100)
         new_list.append(new_value)
     return new_list
 
