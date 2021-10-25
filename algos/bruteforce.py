@@ -1,6 +1,6 @@
 # bruteforce.py
-# created 19/10/2021 @16:01
-# last updated 21/10/2O21 @11:43
+# created 25/10/2021 @11:32
+# last updated 25/10/2021 @11:32
 
 """bruteforce.py
 
@@ -13,112 +13,93 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "1.1.0"
+__version__ = "2.0.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
 
 # standard imports
-import itertools
-import datetime
+from itertools import combinations
 from builtins import list
 
 # third-party imports
 
 # local imports
 import utils.dataset
-import utils.profit
 
 # others
 
-# Bruteforce.py
-# This is the easiest way to have best accuracy.
-# but this method is not scallable and execution time is really long.
+
+"""
+This algorithm is the easiest way to have best accuracy on results.
+However, this method is not scallable and execution time is really long
+for big amount of data.
+
+Complexity of this algorithm is noted => O(2^n)
+"""
 
 
-# Determine all combinations for bruteforcing
 def determine_all_combinations(shares_list):
-    all_combinations = []
-    for i in range(len(shares_list) + 1):
-        combinations_obj = itertools.combinations(shares_list, i)
+    all_wallet_combinations = []
+    for r in range(len(shares_list) + 1):
+        combinations_obj = combinations(shares_list, r)
         combinations_list = list(combinations_obj)
-        all_combinations += combinations_list
-    return all_combinations
+        all_wallet_combinations += combinations_list
+    return all_wallet_combinations
 
 
-def bruteforce_algo(all_combinations, k):
-    # del first combinations
-    del all_combinations[0]
+def bruteforce(k, items, name, price, profit_percentage):
 
-    # Initialize list of all wallet
+    # First calculate profit with price & profit_percentage.
+    shares_list = utils.dataset.readable_data(name, price,
+                                              profit_percentage,
+                                              items)
+
+    # Determine all combinations of wallets possible
+    all_wallet_combinations = determine_all_combinations(shares_list)
+    del all_wallet_combinations[0]
+
+    # Initialize list of all wallets
     all_wallets = []
 
-    # Bruteforce Algo -> calculate all profit
-    for i in range(len(all_combinations)):
-        current_combination = all_combinations[i]
-        w_name, spent, w_profit = create_wallet(current_combination, i, k)
-        wallet = [w_name, spent, w_profit]
-        all_wallets.append(wallet)
+    # Calculate total profit per combination
+    for i in range(len(all_wallet_combinations)):
+        current_combination = all_wallet_combinations[i]
 
-    return all_wallets
+        # Initialize Var
+        wallet_name = i
+        wallet_price = 0
+        wallet_profit = 0
 
+        # Calculate profit and price
+        for share in current_combination:
+            wallet_price = wallet_price + share[1]
+            wallet_profit = wallet_profit + share[2]
 
-# Create a wallet, buy shares and check profit.
-def create_wallet(current_combination, i, k):
-    wallet_name = i
-    amount_spend, wallet_shares_list = buy_shares(current_combination, k)
-    wallet_profit = utils.profit.check_profit(wallet_shares_list)
-    return wallet_name, amount_spend, wallet_profit
-
-
-# Buy shares while the budget is not exceeded
-def buy_shares(current_combination, k):
-    shares_list = []
-    amount_spend = 0
-    for share in current_combination:
-        if (amount_spend + share[1]) <= k:
-            amount_spend += share[1]
-            shares_list.append(share)
-        else:
+        # Keep only the wallets where wallet_price is inferior to 500 (*100)
+        if wallet_price > (k * 100):
             pass
-    return amount_spend, shares_list
-
-
-# Determine best wallet
-def best_wallet(wallet_lists):
-    sorted_w = sorted(wallet_lists, key=lambda w: w[2], reverse=True)
-    best_wallet = sorted_w[0]
-    return best_wallet
-
-
-# Bruteforce algorithm
-def bruteforce(k, items, name, price, profit_percentage):
-    # Store begin time for bruteforce algo
-    begin_time = datetime.datetime.now()
-
-    # Share list & all combinations
-    shares_list = utils.dataset.readable_data(name, price,
-                                              profit_percentage, items)
-
-    all_combinations = determine_all_combinations(shares_list)
-
-    # Bruteforce algo
-    all_wallets = bruteforce_algo(all_combinations, k)
+        else:
+            wallet = [wallet_name, wallet_price, wallet_profit]
+            all_wallets.append(wallet)
 
     # Determine best wallet
-    res = best_wallet(all_wallets)
-    end_time = datetime.datetime.now()
-    execution_time = end_time - begin_time
+    sorted_w = sorted(all_wallets, key=lambda w: w[2], reverse=True)
+    res_wallet = sorted_w[0]
+    best_wallet_shares = all_wallet_combinations[res_wallet[0]]
 
-    wallet_number = res[0]
-    best_wallet_res = all_combinations[wallet_number]
+    # Display Best Wallet to user
+    print("You should buy:")
+    for item in range(len(best_wallet_shares)):
+        share = best_wallet_shares[item]
 
-    print("You should buy")
-    for item in range(len(best_wallet_res)):
-        share = best_wallet_res[item]
-        print(f"{share[0]} for {share[1]} that will give you {share[2]}$ ")
+        # Restore shares to correct prices
+        c_s_price = share[1] / 100
+        c_s_profit = share[2] / 100
 
-    print(f"Best wallet: {res[0]} cost {res[1]}€ gives you {res[2]}€")
-    print(f"Took: {execution_time}")
+        print(f"{share[0]} for {c_s_price} € -> {c_s_profit} € profit")
 
-    # Method time.
+    # Restore wallet price & wallet profit
+    w_price = res_wallet[1] / 100
+    w_profit = res_wallet[2] / 100
+    print(f"\nBest Wallet costs {w_price} € -> {w_profit} € profit")
