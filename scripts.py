@@ -55,7 +55,6 @@ if __name__ == '__main__':
                         help='Algo implementation choose from %(choices)s')
 
     args = parser.parse_args()
-    verbose = args.v
     datafilename = args.f
     budget = int(args.b)
     launch_algo = solvers[args.algo]
