@@ -64,7 +64,8 @@ if __name__ == '__main__':
     price = []
     profit_percentage = []
     items = 0
-    item_removed = 0
+    item_removed_exceeded = 0
+    item_removed_null = 0
 
     with open(datafilename, 'r') as file:
         data = file.read()
@@ -73,14 +74,16 @@ if __name__ == '__main__':
 
         # Check if price int is <= 0 or > to budget
         price_int = int(float(price_data))
-        if (price_int > budget) or (price_int <= 0):
-            item_removed += 1
-            pass
+        if (price_int > budget):
+            item_removed_exceeded += 1
+        elif (price_int <= 0):
+            item_removed_null += 1
         else:
             name.append(name_data)
             price.append(int(float(price_data) * 100))
             profit_percentage.append(int(float(profit_percentage_data) * 100))
             items += 1
 
-    print(f"\n{item_removed} shares removed (null value or budget exceeded)\n")
+    print(f"\n{item_removed_exceeded} shares removed (budget exceeded)")
+    print(f"\n{item_removed_null} shares removed (null value)\n")
     launch_algo(budget, items, name, price, profit_percentage)

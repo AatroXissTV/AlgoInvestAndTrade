@@ -32,18 +32,21 @@ import utils.dataset
 This algorithm is by far the best I could think of.
 It uses matrices and backtracking to know which wallet is best
 
-Complexity of this algorithm is noted => O(log n)
+Complexity of this algorithm is noted => O(2n)
 """
 
 
 def optimized(k, items, name, price, profit_percentage):
+
+    # Budget updated cause price & percentage were * by 100
+    budget = k * 100
 
     # First calculate profit with price & profit_percentage.
     shares_list = utils.dataset.readable_data(name, price,
                                               profit_percentage,
                                               items)
 
-    # Get profit from shares_list:
+    # Second get profit from shares_list:
     profit_int = []
     for share in shares_list:
         share_profit = share[2]
@@ -51,13 +54,11 @@ def optimized(k, items, name, price, profit_percentage):
 
     # Phase 1 : Build Grid with best solution
 
-    # Budget updated
-    budget = k * 100
-
     # Initialize Matrice
     matrice = np.empty((items + 1, budget + 1), dtype=int)
     matrice[0] = 0
 
+    # Fill in the matrice
     for item in range(items):
         this_price = price[item]
         this_value = profit_int[item]
